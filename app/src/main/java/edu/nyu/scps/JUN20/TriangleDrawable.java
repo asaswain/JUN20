@@ -1,28 +1,23 @@
 package edu.nyu.scps.JUN20;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PointF;
-import android.graphics.drawable.Drawable;
 
 /**
- * Created by swaina on 6/25/15.
+ * This class draws a triangle on the canvas
  */
-public class TriangleDrawable extends Drawable {
+public class TriangleDrawable extends ShapeDrawable {
     private Paint paint;
-    private Paint textPaint = new Paint();
     private PointF center;  //of  triangle
     private float radius;	//of circumscribed circle
 
     public TriangleDrawable(float x, float y, float radius, Paint paint) {
         super();
         this.paint = paint;
-        textPaint.setColor(Color.BLACK);
-        textPaint.setTextSize(radius / 5);
         center = new PointF(x, y);
         this.radius = radius;
         int b = (int) radius;
