@@ -36,18 +36,11 @@
 
         <!-- SketchPad will be inserted here by MainActivity java code -->
 
-        <!-- <VerticalSeekBar
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:progress="0"
-            android:id="@+id/locationY"/> -->
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:gravity="left"
         android:orientation="horizontal">
 
@@ -56,8 +49,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:progress="5"
-            android:max="20"
+            android:max="14"
             android:id="@+id/size"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/control_horizontal_margin"
+        android:paddingRight="@dimen/control_horizontal_margin"
+        android:paddingTop="@dimen/control_vertical_margin"
+        android:paddingBottom="@dimen/control_vertical_margin"
+        android:orientation="horizontal"
+        android:background="@color/black">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:background="@color/white"
+            android:layout_weight="1"
+            android:id="@+id/brush"
+            android:text="@string/brush"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:background="@color/yellow"
+            android:layout_weight="1"
+            android:id="@+id/stamp"
+            android:text="@string/stamp"/>
     </LinearLayout>
 
     <LinearLayout

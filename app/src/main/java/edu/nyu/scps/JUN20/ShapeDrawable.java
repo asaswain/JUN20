@@ -2,11 +2,12 @@ package edu.nyu.scps.JUN20;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 
 /**
- * Created by swaina on 6/25/15.
+ * This abstract class stores all the methods for setting the data for the various shapes we want to draw on the canvas
  */
-public class SketchPadImage {
+public abstract class ShapeDrawable extends Drawable {
 
     private float xCoor;
     private float yCoor;
@@ -14,7 +15,7 @@ public class SketchPadImage {
     private String shape;
     private Paint color;
 
-    public SketchPadImage() {
+    public ShapeDrawable() {
         this.xCoor = 0;
         this.yCoor = 0;
         this.size = 0;
@@ -22,7 +23,7 @@ public class SketchPadImage {
         this.color = null;
     }
 
-    public SketchPadImage(float xCoor, float yCoor, float size, String shape, Paint color) {
+    public ShapeDrawable(float xCoor, float yCoor, float size, String shape, Paint color) {
         this.xCoor = xCoor;
         this.yCoor = yCoor;
         this.size = size;
@@ -70,26 +71,5 @@ public class SketchPadImage {
         this.shape = shape;
     }
 
-    public void draw(Canvas canvas) {
-        if (shape.equals("Circle")) {
-            CircleDrawable tmp = new CircleDrawable(xCoor, yCoor, size, color);
-            tmp.draw(canvas);
-        }
-
-        if (shape.equals("Square")) {
-            SquareDrawable tmp = new SquareDrawable(xCoor, yCoor, size, color);
-            tmp.draw(canvas);
-        }
-
-        if (shape.equals("Triangle")) {
-            TriangleDrawable tmp = new TriangleDrawable(xCoor, yCoor, size, color);
-            tmp.draw(canvas);
-        }
-
-        if (shape.equals("Star")) {
-            StarDrawable tmp = new StarDrawable(xCoor, yCoor, size, color);
-            tmp.draw(canvas);
-        }
-    }
-
+    abstract public void draw(Canvas canvas);
 }

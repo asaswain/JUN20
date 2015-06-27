@@ -1,9 +1,5 @@
 package edu.nyu.scps.JUN20;
 
-/**
- * Created by swaina on 6/21/15.
- */
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,32 +9,37 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+/**
+ * The SketchPadView draws various shapes on a canvas using an OnTouchListener
+ */
 public class SketchPadView extends View {
 
-    private ArrayList<SketchPadImage> imageList;
+    private ArrayList<ShapeDrawable> imageList;
     private float scale;
     private String shape;
     private Paint paint;
-    private SketchPadImage cursor;
+    private ShapeDrawable cursorImage;
+    private String drawType;
 
     public SketchPadView(Context context) {
         super(context);
 
         // initialize class variables
-        imageList = new ArrayList<SketchPadImage>();
+        imageList = new ArrayList<ShapeDrawable>();
         scale = 0.1f;
         shape = "Circle";
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
         setPaintColor(Color.WHITE);
-        cursor = null;
+        cursorImage = null;
+        drawType = "Stamp";
 
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
                 float radius;
-                Paint tmpPaint = new Paint();
+                Paint tmpPaint;
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
@@ -49,14 +50,14 @@ public class SketchPadView extends View {
                         // copy paint object before inserting into array (to avoid pointing to original which will change)
                         tmpPaint = new Paint(paint);
 
-                        cursor = new SketchPadImage(event.getX(), event.getY(), radius, shape, tmpPaint);
+                        cursorImage = buildImage(event.getX(), event.getY(), radius, shape, tmpPaint);
                         invalidate();    //call onDraw method of TouchView
 
                         return true;    //do nothing else
 
                     case MotionEvent.ACTION_UP:
-                        imageList.add(cursor);
-                        cursor = null;
+                        imageList.add(cursorImage);
+                        cursorImage = null;
                         invalidate();    //call onDraw method of TouchView
 
                         return false;    //do nothing else
@@ -67,7 +68,11 @@ public class SketchPadView extends View {
                         // copy paint object before inserting into array (to avoid pointing to original which will change)
                         tmpPaint = new Paint(paint);
 
-                        cursor = new SketchPadImage(event.getX(), event.getY(), radius, shape, tmpPaint);
+                        cursorImage = buildImage(event.getX(), event.getY(), radius, shape, tmpPaint);
+                        if (drawType.equals("Brush")) {
+                            imageList.add(cursorImage);
+                        }
+
                         invalidate();    //call onDraw method of TouchView
 
                         return true;    //do nothing else
@@ -79,47 +84,63 @@ public class SketchPadView extends View {
         });
     }
 
-    public void setRadius(float scale) {
+    // set size of shapr
+    public void setSize(float scale) {
         this.scale = scale;
     }
 
+    // set type of shape
     public void setShape(String shape) {
         this.shape = shape;
     }
 
-    /**
-     * Set color pf paintbrush
-     * @param paintColor - new color
-     */
+    // set type of brush used to draw shape
+    public void setDrawType(String drawType) {
+        this.drawType = drawType;
+    }
+
+    // build drawable object depending on shape parameter
+    private ShapeDrawable buildImage(float xCoor, float yCoor, float size, String shape, Paint color) {
+        if (shape.equals("Circle")) {
+            return new CircleDrawable(xCoor, yCoor, size, color);
+        } else if (shape.equals("Square")) {
+            return new SquareDrawable(xCoor, yCoor, size, color);
+        } else if (shape.equals("Triangle")) {
+            return new TriangleDrawable(xCoor, yCoor, size, color);
+        } else if (shape.equals("Star")) {
+            return new StarDrawable(xCoor, yCoor, size, color);
+        } else {
+            return null;
+        }
+    }
+
+    // Set color of paintbrush
     public void setPaintColor(int paintColor) {
         paint.setColor(paintColor);
     }
 
-    /**
-     * Clear all graphics from SketchPad
-     */
+    // Clear all drawable objects from SketchPad
     public void eraseSketchPad() {
         imageList.clear();
         invalidate();    //call onDraw method of TouchView
     }
 
+    // draw all the shapes onto the canvas
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        final int width = getWidth();
-        final int height = getHeight();
-        float radius = .1f * Math.min(width, height);
-
         canvas.drawColor(Color.WHITE);    //background
 
         for (int i = 0; i < imageList.size(); ++i) {
-             // get a SketchPad image from the list and draw it
-             imageList.get(i).draw(canvas);
+            // get a SketchPad image from the list and draw it
+            ShapeDrawable savedImage = imageList.get(i);
+            savedImage.draw(canvas);
         }
 
-        if (cursor != null) {
-            cursor.draw(canvas);
+        if (cursorImage != null) {
+            cursorImage.draw(canvas);
         }
     }
+
 }
