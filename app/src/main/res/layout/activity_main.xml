@@ -20,23 +20,11 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <edu.nyu.scps.JUN20.SketchPadView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
         android:layout_weight="8"
-        android:gravity="left">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/paper"
-            android:background="@color/darkgrey">
-        </RelativeLayout>
-
-        <!-- SketchPad will be inserted here by MainActivity java code -->
-
-    </LinearLayout>
+        android:id="@+id/sketchPad"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,7 +51,7 @@
         android:orientation="horizontal"
         android:background="@color/black">
 
-        <TextView
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
@@ -72,7 +60,7 @@
             android:layout_weight="1"
             android:id="@+id/brush"
             android:text="@string/brush"/>
-        <TextView
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
@@ -93,7 +81,7 @@
         android:orientation="horizontal"
         android:background="@color/black">
 
-        <TextView
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
@@ -102,7 +90,7 @@
             android:layout_weight="1"
             android:id="@+id/circle"
             android:text="@string/circle"/>
-        <TextView
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
@@ -111,7 +99,7 @@
             android:layout_weight="1"
             android:id="@+id/square"
             android:text="@string/square"/>
-        <TextView
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
@@ -120,7 +108,7 @@
             android:layout_weight="1"
             android:id="@+id/triangle"
             android:text="@string/triangle"/>
-        <TextView
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="15sp"
@@ -141,14 +129,14 @@
         android:orientation="horizontal"
         android:background="@color/black">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:gravity="center"
-                android:background="@color/white"
-                android:id="@+id/current_color"
-                android:text="@string/current_color"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:background="@color/white"
+            android:id="@+id/current_color"
+            android:text="@string/current_color"/>
     </LinearLayout>
 </LinearLayout>
 

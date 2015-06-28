@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -24,6 +25,19 @@ public class SketchPadView extends View {
     public SketchPadView(Context context) {
         super(context);
 
+        setListeners();
+    }
+
+    // used when constructing object from layout activity_main.xml file
+    public SketchPadView(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
+
+        setListeners();
+    }
+
+    // set up listeners for SketchPadView object
+    private void setListeners() {
+
         // initialize class variables
         imageList = new ArrayList<ShapeDrawable>();
         scale = 0.1f;
@@ -34,6 +48,7 @@ public class SketchPadView extends View {
         cursorImage = null;
         drawType = "Stamp";
 
+        // anonymous class because we're only creating one listener
         setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

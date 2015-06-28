@@ -11,10 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 /**
  * This application displays a canvas and allows the user to select a color, a brush type, and a shape and draw on the canvas using a TouchListener
@@ -25,34 +24,30 @@ public class MainActivity extends AppCompatActivity {
     SketchPadView sketchPad;
 
     final int shapeList[] = new int[] {
-            edu.nyu.scps.JUN20.R.id.circle,
-            edu.nyu.scps.JUN20.R.id.square,
-            edu.nyu.scps.JUN20.R.id.triangle,
-            edu.nyu.scps.JUN20.R.id.star,
+            R.id.circle,
+            R.id.square,
+            R.id.triangle,
+            R.id.star,
     };
 
     final int brushList[] = new int[] {
-            edu.nyu.scps.JUN20.R.id.brush,
-            edu.nyu.scps.JUN20.R.id.stamp,
+            R.id.brush,
+            R.id.stamp,
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(edu.nyu.scps.JUN20.R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         Resources resources = getResources();
 
-        // insert a SketchPadView view into the RelativeLayout for user to draw on
-
-        final RelativeLayout sketchPadLayout = (RelativeLayout) findViewById(edu.nyu.scps.JUN20.R.id.paper);
-        sketchPad = new SketchPadView(MainActivity.this);
-        sketchPadLayout.addView(sketchPad);
+        sketchPad = (SketchPadView) findViewById(R.id.sketchPad);
 
         // create a listener for the seekbar which controls the size of the image drawn by the user
 
         SeekBar seekBar;
-        seekBar = (SeekBar) findViewById(edu.nyu.scps.JUN20.R.id.size);
+        seekBar = (SeekBar) findViewById(R.id.size);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -63,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
+            @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 float scale = (float) (progress+1) / 100f;
                 sketchPad.setSize(scale);
@@ -79,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             colorList[i] = resources.getIdentifier(colorid, "color", getPackageName());
         }
 
-        final LinearLayout palette = (LinearLayout) findViewById(edu.nyu.scps.JUN20.R.id.palette);
+        final LinearLayout palette = (LinearLayout) findViewById(R.id.palette);
         DisplayMetrics displayMetrics = resources.getDisplayMetrics();
         int pixelWidth = displayMetrics.widthPixels;
 
@@ -115,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         ShapeOnClickListener shapeOnClickListener = new ShapeOnClickListener();
 
         for (int i = 0; i < shapeList.length; ++i) {
-            TextView shapeView = (TextView) findViewById(shapeList[i]);
+            Button shapeView = (Button) findViewById(shapeList[i]);
             // set an onClickListener for all the views in the shape palette  to enable us to change the shape
             shapeView.setOnClickListener(shapeOnClickListener);
         }
@@ -125,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         BrushOnClickListener brushOnClickListener = new BrushOnClickListener();
 
         for (int i = 0; i < brushList.length; ++i) {
-            TextView brushView = (TextView) findViewById(brushList[i]);
+            Button brushView = (Button) findViewById(brushList[i]);
             // set an onClickListener for all the views in the shape palette  to enable us to change the shape
             brushView.setOnClickListener(brushOnClickListener);
         }
@@ -141,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             sketchPad.setPaintColor(backgroundColor.getColor());
 
             // update color of Current Color View
-            View currentColor = findViewById(edu.nyu.scps.JUN20.R.id.current_color);
+            View currentColor = findViewById(R.id.current_color);
             currentColor.setBackgroundColor(backgroundColor.getColor());
         }
     }
@@ -151,12 +147,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            TextView textView = (TextView) v;
-            String text = textView.getText().toString();
+            Button button = (Button) v;
+            String text = button.getText().toString();
             sketchPad.setShape(text);
 
             for (int i = 0; i < shapeList.length; ++i) {
-                TextView shapeView = (TextView) findViewById(shapeList[i]);
+                Button shapeView = (Button) findViewById(shapeList[i]);
                 Log.d("shape", ""+shapeList[i]);
                 shapeView.setBackgroundColor(Color.WHITE);
             }
@@ -171,13 +167,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            TextView textView = (TextView) v;
-            String text = textView.getText().toString();
+            Button button = (Button) v;
+            String text = button.getText().toString();
             sketchPad.setDrawType(text);
 
             for (int i = 0; i < brushList.length; ++i) {
-                TextView brushView = (TextView) findViewById(brushList[i]);
-                Log.d("brush", ""+brushList[i]);
+                Button brushView = (Button) findViewById(brushList[i]);
                 brushView.setBackgroundColor(Color.WHITE);
             }
 
@@ -190,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(edu.nyu.scps.JUN20.R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -202,11 +197,11 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         ////noinspection SimplifiableIfStatement
-        //if (id == edu.nyu.scps.JUN20.R.id.action_settings) {
+        //if (id == R.id.action_settings) {
         //    return true;
         //}
 
-        if (id == edu.nyu.scps.JUN20.R.id.action_reset) {
+        if (id == R.id.action_reset) {
             sketchPad.eraseSketchPad();
             return true;
         }
